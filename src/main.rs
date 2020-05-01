@@ -13,5 +13,6 @@ fn hello() -> &'static str {
 
 fn main() {
     let key = wikiartapi::login().unwrap();
+    println!("{:?}", search::artist_map.len());
     rocket::ignite().mount("/", routes![hello, search::search]).launch();
 }
