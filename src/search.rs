@@ -41,25 +41,32 @@ fn get_html(query: String) -> Result<String, reqwest::Error> {
     reqwest::blocking::get(&url)?.text()
 }
 
-fn get_artists(html: &String) -> Vec<Artist> {
-    let base_selector = Selector::parse("ul.wiki-artistgallery-container.ng-isolate-scope").unwrap();
-    let parsed = Html::parse_document(&html);
-    let artists = parsed.select(&base_selector).next().unwrap();
-    println!("{}", artists.inner_html());
-    vec![]
+fn get_artists(query: &String) -> Vec<Artist> {
+    artist_map.iter()
+              .filter(|(k,v)| k.contains(&query.as_str().to_lowercase()))
+              .map(|(k,v)| Artist{name: v.to_string(),
+                                  url: format!("{}{}", "https://www.wikiart.org/en/",k)}) 
+              .collect()
 }
+    //let base_selector = Selector::parse("ul.wiki-artistgallery-container.ng-isolate-scope").unwrap();
+    //let parsed = Html::parse_document(&html);
+    //let artists = parsed.select(&base_selector).next().unwrap();
+    //println!("{}", artists.inner_html());
+    //vec![]
 
-fn parse_html(html: String) -> Json<SearchData> {
-    let artists = get_artists(&html);
-    Json(SearchData{artists, artworks: vec![]})
-}
+//fn parse_html(html: String) -> Json<SearchData> {
+//    let artists = get_artists(&html);
+//    Json(SearchData{artists, artworks: vec![]})
+//}
 
 
 #[get("/search/<query>")]
 pub fn search(query: String) -> Json<SearchData> {
-    match get_html(query) {
-        Ok(html) => parse_html(html),
-        Err(_) => Json(SearchData{artists: vec![], artworks: vec![]})
-    }
+    let artists = get_artists(&query);
+    Json(SearchData{artists, artworks: vec![]})
+    //match get_html(query) {
+    //    Ok(html) => parse_html(html),
+    //    Err(_) => Json(SearchData{artists: vec![], artworks: vec![]})
+    //}
 }
 
