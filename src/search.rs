@@ -1,72 +1,118 @@
-use serde::{Serialize,Deserialize};
+use serde::{Serialize};
 use rocket_contrib::json::Json;
-use scraper::{Html,Selector};
-use std::collections::HashMap;
-use lazy_static::lazy_static;
+
+mod artist {
+    #![allow(non_snake_case)]
+
+    use std::collections::HashMap;
+    use lazy_static::lazy_static;
+    use serde::{Serialize};
+
+    lazy_static! {
+        static ref ARTIST_MAP: HashMap<String,String> = {
+            let path = "static/artists.json";
+            let json = std::fs::read_to_string(path).unwrap();
+            serde_json::from_str(&json).unwrap()
+        };
+    }
+
+    #[derive(Serialize)]
+    pub struct Artist {
+        name: String,
+        url: String
+    }
+
+    impl Artist {
+        pub fn new(name: String, url_end: String) -> Self {
+            Artist{name,
+                   url: format!("{}{}", "https://www.wikiart.org/en/", url_end)} 
+        }
+    }
 
 
-lazy_static! {
-    pub static ref artist_map: HashMap<String,String> = {
-        let path = "static/artists.json";
-        let json = std::fs::read_to_string(path).unwrap();
-        serde_json::from_str(&json).unwrap()
-    };
+    pub fn get_artists(query: &String) -> Vec<Artist> {
+        ARTIST_MAP.iter()
+                  .filter(|(k,_)| k.contains(&query.as_str().to_lowercase()))
+                  .map(|(k,v)| Artist::new(v.to_string(), k.to_string())) 
+                  .collect()
+    }
 }
 
+mod artwork {
+    #![allow(non_snake_case)]
 
-#[derive(Serialize)]
-struct Artist {
-    name: String,
-    url: String
-}
+    use serde::{Serialize,Deserialize};
+    use super::artist::Artist;
+    use lazy_static::lazy_static;
 
-#[derive(Serialize)]
-struct Artwork {
-    img_url: String,
-    name: String,
-    author: Artist,
-    year: u32
+    lazy_static! {
+        static ref CLIENT: reqwest::blocking::Client = reqwest::blocking::Client::new();
+    }
+    
+    //TODO: perhpas more fields should be of type Option<T>; needs testing
+    #[derive(Deserialize)]
+    #[allow(dead_code)]
+    struct ArtworkSearchData {
+        id: String,
+        title: String, 
+        url: Option<String>, 
+        artistUrl: String,
+        artistName: String, 
+        artistId: String,
+        completitionYear: Option<i32>,
+        width: i32,
+        image: String,
+        height: i32
+    }
+
+    #[derive(Deserialize)]
+    #[allow(dead_code)]
+    struct ArtworkSearchAPI {
+        data: Vec<ArtworkSearchData>,
+        paginationToken: String,
+        hasMore: bool
+    }
+
+    #[derive(Serialize)]
+    pub struct Artwork {
+        img_url: String,
+        name: String,
+        author: Artist,
+        year: Option<i32>
+    }
+
+    pub fn get_artworks(query: &String) -> Result<Vec<Artwork>, reqwest::Error> {
+        let url = format!("{}{}", "https://www.wikiart.org/en/api/2/PaintingSearch?term=", query);
+        let artworks = CLIENT.get(&url)
+                             .send()?
+                             .json::<ArtworkSearchAPI>()?
+                             .data.iter()
+                             .map(|asd| Artwork{img_url: asd.image.clone(),
+                                                name: asd.title.clone(),
+                                                author: Artist::new(asd.artistName.clone(),
+                                                                    asd.artistUrl.clone()),
+                                                year: asd.completitionYear})
+                             .collect();
+        Ok(artworks)
+    }
 }
 
 
 #[derive(Serialize)]
 pub struct SearchData {
-    artists: Vec<Artist>,
-    artworks: Vec<Artwork>
+    artists: Vec<artist::Artist>,
+    artworks: Vec<artwork::Artwork>
 }
-
-
-fn get_html(query: String) -> Result<String, reqwest::Error> {
-    let url = "https://www.wikiart.org/en/Search/".to_string() + &query;
-    reqwest::blocking::get(&url)?.text()
-}
-
-fn get_artists(query: &String) -> Vec<Artist> {
-    artist_map.iter()
-              .filter(|(k,v)| k.contains(&query.as_str().to_lowercase()))
-              .map(|(k,v)| Artist{name: v.to_string(),
-                                  url: format!("{}{}", "https://www.wikiart.org/en/",k)}) 
-              .collect()
-}
-    //let base_selector = Selector::parse("ul.wiki-artistgallery-container.ng-isolate-scope").unwrap();
-    //let parsed = Html::parse_document(&html);
-    //let artists = parsed.select(&base_selector).next().unwrap();
-    //println!("{}", artists.inner_html());
-    //vec![]
-
-//fn parse_html(html: String) -> Json<SearchData> {
-//    let artists = get_artists(&html);
-//    Json(SearchData{artists, artworks: vec![]})
-//}
-
 
 #[get("/search/<query>")]
 pub fn search(query: String) -> Json<SearchData> {
-    let artists = get_artists(&query);
-    Json(SearchData{artists, artworks: vec![]})
-    //match get_html(query) {
-    //    Ok(html) => parse_html(html),
-    //    Err(_) => Json(SearchData{artists: vec![], artworks: vec![]})
-    //}
+    let artists = artist::get_artists(&query);
+    let artworks = match artwork::get_artworks(&query) {
+        Ok(works) => works,
+        Err(msg) => {
+            println!("{}", msg);
+            vec![]
+        }
+    };
+    Json(SearchData{artists, artworks})
 }
-

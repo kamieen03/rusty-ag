@@ -1,7 +1,8 @@
-use std::collections::HashMap;
 use serde::Deserialize;
 
 #[derive(Deserialize)]
+#[allow(non_snake_case)]
+#[allow(dead_code)]
 struct LoginResponse {
     SessionKey: String,
     MaxRequestsPerHour: i32,
