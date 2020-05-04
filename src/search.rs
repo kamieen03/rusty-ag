@@ -69,7 +69,7 @@ mod artwork {
     #[allow(dead_code)]
     struct ArtworkSearchAPI {
         data: Vec<ArtworkSearchData>,
-        paginationToken: String,
+        paginationToken: Option<String>,
         hasMore: bool
     }
 
