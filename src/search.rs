@@ -97,11 +97,49 @@ mod artwork {
     }
 }
 
+mod style {
+    use lazy_static::lazy_static;
+    use serde::{Serialize,Deserialize};
+
+    lazy_static! {
+        static ref STYLES: Vec<Style> = {
+            let path = "static/styles.json";
+            let json = std::fs::read_to_string(path).unwrap();
+            serde_json::from_str::<Vec<Style>>(&json).unwrap()
+                            .iter()
+                            .map(|s| Style::new(s.title.clone(), s.url.clone()))
+                            .collect()
+        };
+    }
+
+    #[derive(Serialize,Deserialize)]
+    #[derive(Clone)]
+    pub struct Style {
+        title: String, 
+        url: String
+    }
+
+    impl Style {
+        fn new(title: String, url_name: String) -> Self {
+            Style{title,
+                  url: format!("{}{}", "https://www.wikiart.org/en/paintings-by-style/", url_name)}
+        }
+    }
+
+    pub fn get_styles(query: &String) -> Vec<Style> {
+        STYLES.iter()
+              .filter(|s| s.title.to_lowercase().contains(&query.as_str().to_lowercase()))
+              .map(|s| s.clone())
+              .collect()
+    }
+
+}
 
 #[derive(Serialize)]
 pub struct SearchData {
     artists: Vec<artist::Artist>,
-    artworks: Vec<artwork::Artwork>
+    artworks: Vec<artwork::Artwork>,
+    styles: Vec<style::Style>
 }
 
 #[get("/search/<query>")]
@@ -114,5 +152,6 @@ pub fn search(query: String) -> Json<SearchData> {
             vec![]
         }
     };
-    Json(SearchData{artists, artworks})
+    let styles = style::get_styles(&query);
+    Json(SearchData{artists, artworks, styles})
 }
