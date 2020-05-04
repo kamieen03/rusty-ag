@@ -4,14 +4,14 @@
 
 mod wikiartapi;
 mod search;
+mod artist;
 
 #[get("/")]
 fn hello() -> &'static str {
     "Hello, world!"
 }
 
-
 fn main() {
     //let key = wikiartapi::login().unwrap();
-    rocket::ignite().mount("/", routes![hello, search::search]).launch();
+    rocket::ignite().mount("/", routes![hello, search::search, artist::artist]).launch();
 }
