@@ -9,32 +9,28 @@ mod artist {
     use serde::{Serialize};
 
     lazy_static! {
-        static ref ARTIST_MAP: HashMap<String,String> = {
+        static ref ARTISTS: Vec<Artist> = {
             let path = "static/artists.json";
             let json = std::fs::read_to_string(path).unwrap();
-            serde_json::from_str(&json).unwrap()
+            serde_json::from_str::<HashMap<String,String>>(&json).unwrap()
+                .iter()
+                .map(|(k,v)| Artist {name: v.to_string(), url: k.to_string()})
+                .collect()
         };
     }
 
     #[derive(Serialize)]
+    #[derive(Clone)]
     pub struct Artist {
-        name: String,
-        url: String
+        pub name: String,
+        pub url: String
     }
-
-    impl Artist {
-        pub fn new(name: String, url_end: String) -> Self {
-            Artist{name,
-                   url: format!("{}{}", "https://www.wikiart.org/en/", url_end)} 
-        }
-    }
-
 
     pub fn get_artists(query: &String) -> Vec<Artist> {
-        ARTIST_MAP.iter()
-                  .filter(|(k,_)| k.contains(&query.as_str().to_lowercase()))
-                  .map(|(k,v)| Artist::new(v.to_string(), k.to_string())) 
-                  .collect()
+        ARTISTS.iter()
+               .filter(|a| a.url.contains(&query.as_str().to_lowercase()))
+               .map(|a| a.clone())
+               .collect()
     }
 }
 
@@ -89,8 +85,8 @@ mod artwork {
                              .data.iter()
                              .map(|asd| Artwork{img_url: asd.image.clone(),
                                                 name: asd.title.clone(),
-                                                author: Artist::new(asd.artistName.clone(),
-                                                                    asd.artistUrl.clone()),
+                                                author: Artist {name: asd.artistName.clone(),
+                                                                url: asd.artistUrl.clone()} ,
                                                 year: asd.completitionYear})
                              .collect();
         Ok(artworks)
@@ -106,9 +102,6 @@ mod style {
             let path = "static/styles.json";
             let json = std::fs::read_to_string(path).unwrap();
             serde_json::from_str::<Vec<Style>>(&json).unwrap()
-                            .iter()
-                            .map(|s| Style::new(s.title.clone(), s.url.clone()))
-                            .collect()
         };
     }
 
@@ -119,16 +112,9 @@ mod style {
         url: String
     }
 
-    impl Style {
-        fn new(title: String, url_name: String) -> Self {
-            Style{title,
-                  url: format!("{}{}", "https://www.wikiart.org/en/paintings-by-style/", url_name)}
-        }
-    }
-
     pub fn get_styles(query: &String) -> Vec<Style> {
         STYLES.iter()
-              .filter(|s| s.title.to_lowercase().contains(&query.as_str().to_lowercase()))
+              .filter(|s| s.url.contains(&query.as_str().to_lowercase()))
               .map(|s| s.clone())
               .collect()
     }
