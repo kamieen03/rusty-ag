@@ -101,7 +101,7 @@ async fn fetch_paintings(url: &String) -> Result<Vec<PaintingShortInfoAPI>, reqw
     Ok(paintings)
 }
 
-//TODO: get rid of markup
+
 async fn fetch_wiki_info(url: &String) -> Result<WikipediaBiography, reqwest::Error> {
     let url = format!("https://www.wikiart.org/en/{}", url);
     let html = reqwest::get(&url)
@@ -110,9 +110,10 @@ async fn fetch_wiki_info(url: &String) -> Result<WikipediaBiography, reqwest::Er
         .await?;
     let document = Html::parse_document(&html);
     let selector = Selector::parse("div.wiki-layout-artist-info-tab[id=info-tab-wikipediaArticle]").unwrap();
-    let bio = document.select(&selector).next().unwrap()
-                        .select(&Selector::parse("p").unwrap()).next().unwrap()
-                        .inner_html();
+    let bio: String = document.select(&selector).next().unwrap()
+                              .select(&Selector::parse("p").unwrap()).next().unwrap()
+                              .text()
+                              .collect();
     Ok(WikipediaBiography{data: bio})
 }
 
