@@ -38,7 +38,6 @@ mod artwork {
     #![allow(non_snake_case)]
 
     use serde::{Serialize,Deserialize};
-    use super::artist::Artist;
     use lazy_static::lazy_static;
 
     lazy_static! {
@@ -49,44 +48,36 @@ mod artwork {
     #[derive(Deserialize)]
     #[allow(dead_code)]
     struct ArtworkSearchData {
-        id: String,
         title: String, 
-        url: Option<String>, 
-        artistUrl: String,
+        contentId: i64,
+        artistContentId: i64,
         artistName: String, 
-        artistId: String,
         completitionYear: Option<i32>,
+        yearAsString: Option<String>,
         width: i32,
         image: String,
         height: i32
     }
 
-    #[derive(Deserialize)]
-    #[allow(dead_code)]
-    struct ArtworkSearchAPI {
-        data: Vec<ArtworkSearchData>,
-        paginationToken: Option<String>,
-        hasMore: bool
-    }
-
     #[derive(Serialize)]
     pub struct Artwork {
         img_url: String,
+        id: i64,
         name: String,
-        author: Artist,
+        author: String,
         year: Option<i32>
     }
 
     pub fn get_artworks(query: &String) -> Result<Vec<Artwork>, reqwest::Error> {
-        let url = format!("{}{}", "https://www.wikiart.org/en/api/2/PaintingSearch?term=", query);
+        let url = format!("https://www.wikiart.org/en/search/{}/1?json=2", query);
         let artworks = CLIENT.get(&url)
                              .send()?
-                             .json::<ArtworkSearchAPI>()?
-                             .data.iter()
+                             .json::<Vec<ArtworkSearchData>>()?
+                             .iter()
                              .map(|asd| Artwork{img_url: asd.image.clone(),
+                                                id: asd.contentId,
                                                 name: asd.title.clone(),
-                                                author: Artist {name: asd.artistName.clone(),
-                                                                url: asd.artistUrl.clone()} ,
+                                                author: asd.artistName.clone(),
                                                 year: asd.completitionYear})
                              .collect();
         Ok(artworks)
