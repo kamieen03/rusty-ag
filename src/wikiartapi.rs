@@ -6,7 +6,7 @@ use serde::Deserialize;
 struct LoginResponse {
     SessionKey: String,
     MaxRequestsPerHour: i32,
-    MaxSessionsPerHour: i32
+    MaxSessionsPerHour: i32,
 }
 
 pub fn login() -> Result<String, reqwest::Error>{
