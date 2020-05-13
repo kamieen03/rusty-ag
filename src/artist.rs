@@ -1,16 +1,14 @@
-use serde::{Serialize,Deserialize};
-use rocket_contrib::json::Json;
-use futures::{executor::block_on,self};
-use scraper::{Selector,Html};
+use futures::{self, executor::block_on};
 use lazy_static::lazy_static;
+use rocket_contrib::json::Json;
+use scraper::{Html, Selector};
+use serde::{Deserialize, Serialize};
 
 lazy_static! {
     static ref CLIENT: reqwest::Client = reqwest::Client::new();
 }
 
-
-#[derive(Serialize,Deserialize)]
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 #[allow(non_snake_case)]
 struct ArtistInfoAPI {
     relatedArtistsIds: Vec<String>,
@@ -18,11 +16,11 @@ struct ArtistInfoAPI {
     activeYearsCompletion: Option<i32>,
     activeYearsStart: Option<i32>,
     artistName: String,
-    biography: Option<String>,  // if empty then "", not null
-    birthDay: String,   // weird format
+    biography: Option<String>, // if empty then "", not null
+    birthDay: String,          // weird format
     birthDayAsString: String,
     contentId: i64,
-    deathDay: String,    //weird format
+    deathDay: String, //weird format
     deathDayAsString: Option<String>,
     dictonaries: Vec<i32>,
     gender: String,
@@ -33,10 +31,10 @@ struct ArtistInfoAPI {
     story: String,
     themes: String,
     url: String,
-    wikipediaUrl: String
+    wikipediaUrl: String,
 }
 
-#[derive(Serialize,Deserialize)]
+#[derive(Serialize, Deserialize)]
 #[allow(non_snake_case)]
 struct PaintingShortInfoAPI {
     title: String,
@@ -47,12 +45,12 @@ struct PaintingShortInfoAPI {
     yearAsString: Option<String>,
     width: i32,
     image: String,
-    height: i32
+    height: i32,
 }
 
 #[derive(Serialize)]
 struct WikipediaBiography {
-    data: String
+    data: String,
 }
 
 #[derive(Serialize)]
@@ -66,12 +64,16 @@ pub struct Artist {
     biography: Option<String>,
     wiki_biography: WikipediaBiography,
     wiki_url: String,
-    paintings: Vec<PaintingShortInfoAPI>
+    paintings: Vec<PaintingShortInfoAPI>,
 }
 
 impl Artist {
-    fn new(info: ArtistInfoAPI, paintings: Vec<PaintingShortInfoAPI>, wiki_info: WikipediaBiography) -> Self {
-        Artist{
+    fn new(
+        info: ArtistInfoAPI,
+        paintings: Vec<PaintingShortInfoAPI>,
+        wiki_info: WikipediaBiography,
+    ) -> Self {
+        Artist {
             name: info.artistName,
             long_name: info.OriginalArtistName,
             birth: info.birthDayAsString,
@@ -80,58 +82,69 @@ impl Artist {
             image_url: info.image,
             biography: match info.biography {
                 Some(bio) if bio.len() > 5 => Some(bio),
-                _ => None
+                _ => None,
             },
             wiki_biography: wiki_info,
             wiki_url: info.wikipediaUrl,
-            paintings}
+            paintings,
+        }
     }
 }
 
 async fn fetch_artist_info(url: &String) -> Result<ArtistInfoAPI, reqwest::Error> {
     let url = format!("https://www.wikiart.org/en/{}?json=2", url);
-    let info = CLIENT.get(&url)
-                     .send()
-                     .await?
-                     .json::<ArtistInfoAPI>()
-                     .await?;
+    let info = CLIENT
+        .get(&url)
+        .send()
+        .await?
+        .json::<ArtistInfoAPI>()
+        .await?;
     Ok(info)
 }
 
 async fn fetch_paintings(url: &String) -> Result<Vec<PaintingShortInfoAPI>, reqwest::Error> {
-    let url = format!("https://www.wikiart.org/en/App/Painting/PaintingsByArtist?artistUrl={}&json=2", url);
-    let paintings = CLIENT.get(&url)
-                          .send()
-                          .await?
-                          .json::<Vec<PaintingShortInfoAPI>>()
-                          .await?;
+    let url = format!(
+        "https://www.wikiart.org/en/App/Painting/PaintingsByArtist?artistUrl={}&json=2",
+        url
+    );
+    let paintings = CLIENT
+        .get(&url)
+        .send()
+        .await?
+        .json::<Vec<PaintingShortInfoAPI>>()
+        .await?;
     Ok(paintings)
 }
 
-
 async fn fetch_wiki_info(url: &String) -> Result<WikipediaBiography, reqwest::Error> {
     let url = format!("https://www.wikiart.org/en/{}", url);
-    let html = CLIENT.get(&url)
-                     .send()
-                     .await?
-                     .text()
-                     .await?;
+    let html = CLIENT.get(&url).send().await?.text().await?;
     let document = Html::parse_document(&html);
-    let selector = Selector::parse("div.wiki-layout-artist-info-tab[id=info-tab-wikipediaArticle]").unwrap();
-    let bio: String = document.select(&selector).next().unwrap()
-                              .select(&Selector::parse("p").unwrap()).next().unwrap()
-                              .text()
-                              .collect();
-    Ok(WikipediaBiography{data: bio})
+    let selector =
+        Selector::parse("div.wiki-layout-artist-info-tab[id=info-tab-wikipediaArticle]").unwrap();
+    let bio: String = document
+        .select(&selector)
+        .next()
+        .unwrap()
+        .select(&Selector::parse("p").unwrap())
+        .next()
+        .unwrap()
+        .text()
+        .collect();
+    Ok(WikipediaBiography { data: bio })
 }
 
-async fn fetch_data(url: &String) -> 
-    (reqwest::Result<ArtistInfoAPI>, reqwest::Result<Vec<PaintingShortInfoAPI>>, reqwest::Result<WikipediaBiography>)
-{
+async fn fetch_data(
+    url: &String,
+) -> (
+    reqwest::Result<ArtistInfoAPI>,
+    reqwest::Result<Vec<PaintingShortInfoAPI>>,
+    reqwest::Result<WikipediaBiography>,
+) {
     let f1 = fetch_artist_info(url);
     let f2 = fetch_paintings(url);
     let f3 = fetch_wiki_info(url);
-    futures::join!(f1,f2,f3)
+    futures::join!(f1, f2, f3)
 }
 
 #[tokio::main]
