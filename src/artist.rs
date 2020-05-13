@@ -2,6 +2,11 @@ use serde::{Serialize,Deserialize};
 use rocket_contrib::json::Json;
 use futures::{executor::block_on,self};
 use scraper::{Selector,Html};
+use lazy_static::lazy_static;
+
+lazy_static! {
+    static ref CLIENT: reqwest::Client = reqwest::Client::new();
+}
 
 
 #[derive(Serialize,Deserialize)]
@@ -85,29 +90,32 @@ impl Artist {
 
 async fn fetch_artist_info(url: &String) -> Result<ArtistInfoAPI, reqwest::Error> {
     let url = format!("https://www.wikiart.org/en/{}?json=2", url);
-    let info = reqwest::get(&url)
-        .await?
-        .json::<ArtistInfoAPI>()
-        .await?;
+    let info = CLIENT.get(&url)
+                     .send()
+                     .await?
+                     .json::<ArtistInfoAPI>()
+                     .await?;
     Ok(info)
 }
 
 async fn fetch_paintings(url: &String) -> Result<Vec<PaintingShortInfoAPI>, reqwest::Error> {
     let url = format!("https://www.wikiart.org/en/App/Painting/PaintingsByArtist?artistUrl={}&json=2", url);
-    let paintings = reqwest::get(&url)
-        .await?
-        .json::<Vec<PaintingShortInfoAPI>>()
-        .await?;
+    let paintings = CLIENT.get(&url)
+                          .send()
+                          .await?
+                          .json::<Vec<PaintingShortInfoAPI>>()
+                          .await?;
     Ok(paintings)
 }
 
 
 async fn fetch_wiki_info(url: &String) -> Result<WikipediaBiography, reqwest::Error> {
     let url = format!("https://www.wikiart.org/en/{}", url);
-    let html = reqwest::get(&url)
-        .await?
-        .text()
-        .await?;
+    let html = CLIENT.get(&url)
+                     .send()
+                     .await?
+                     .text()
+                     .await?;
     let document = Html::parse_document(&html);
     let selector = Selector::parse("div.wiki-layout-artist-info-tab[id=info-tab-wikipediaArticle]").unwrap();
     let bio: String = document.select(&selector).next().unwrap()
