@@ -5,6 +5,7 @@
 mod wikiartapi;
 mod search;
 mod artist;
+mod artwork;
 
 #[get("/")]
 fn hello() -> &'static str {
@@ -12,6 +13,5 @@ fn hello() -> &'static str {
 }
 
 fn main() {
-    //let key = wikiartapi::login().unwrap();
-    rocket::ignite().mount("/", routes![hello, search::search, artist::artist]).launch();
+    rocket::ignite().mount("/", routes![hello, search::search, artist::artist, artwork::artwork]).launch();
 }
