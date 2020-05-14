@@ -18,8 +18,8 @@ fn main() {
         hello,
         search::search,
         artist::artist,
-        artwork::artworkV1,
-        artwork::artworkV2
+        artwork::artwork_v1,
+        artwork::artwork_v2
     ];
     rocket::ignite().mount("/", routes).launch();
 }
