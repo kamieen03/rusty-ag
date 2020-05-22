@@ -19,6 +19,7 @@ fn main() {
         hello,
         search::search,
         artist::artist,
+        artist::artist_paintings,
         artwork::artwork_v1,
         artwork::artwork_v2,
         movement::movement,
