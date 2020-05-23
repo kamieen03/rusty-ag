@@ -6,6 +6,7 @@ extern crate rocket;
 mod artist;
 mod artwork;
 mod movement;
+mod popular;
 mod search;
 mod wikiartapi;
 
@@ -23,6 +24,7 @@ fn main() {
         artwork::artwork_v1,
         artwork::artwork_v2,
         movement::movement,
+        popular::popular_paintings,
     ];
     rocket::ignite().mount("/", routes).launch();
 }
