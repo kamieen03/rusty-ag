@@ -52,38 +52,51 @@ mod artwork {
     #[derive(Deserialize)]
     #[allow(dead_code)]
     struct ArtworkSearchData {
+        id: String,
         title: String,
-        contentId: i64,
-        artistContentId: i64,
+        url: Option<String>,
+        artistUrl: String,
         artistName: String,
+        artistId: String,
         completitionYear: Option<i32>,
-        yearAsString: Option<String>,
         width: i32,
         image: String,
         height: i32,
     }
 
+    #[derive(Deserialize)]
+    #[allow(dead_code)]
+    struct WrapperArtworkSearchData {
+        data: Vec<ArtworkSearchData>,
+        paginationToken: String,
+        hasMore: bool,
+    }
+
     #[derive(Serialize)]
     pub struct Artwork {
         img_url: String,
-        id: i64,
+        id: String,
         name: String,
         author: String,
         year: Option<i32>,
     }
 
     pub fn get_artworks(query: &String) -> Result<Vec<Artwork>, reqwest::Error> {
-        let url = format!("https://www.wikiart.org/en/search/{}/1?json=2", query);
+        let url = format!(
+            "https://www.wikiart.org/en/api/2/PaintingSearch?term={}",
+            query
+        );
         let artworks = CLIENT
             .get(&url)
             .send()?
-            .json::<Vec<ArtworkSearchData>>()?
-            .iter()
+            .json::<WrapperArtworkSearchData>()?
+            .data
+            .into_iter()
             .map(|asd| Artwork {
-                img_url: asd.image.clone(),
-                id: asd.contentId,
-                name: asd.title.clone(),
-                author: asd.artistName.clone(),
+                img_url: asd.image,
+                id: asd.id,
+                name: asd.title,
+                author: asd.artistName,
                 year: asd.completitionYear,
             })
             .collect();

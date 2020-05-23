@@ -15,9 +15,9 @@ struct ArtworkAPIV1 {
     location: Option<String>,
     period: Option<String>,
     serie: Option<String>,
-    genre: String,
+    genre: Option<String>,
     material: Option<String>,
-    style: String,
+    style: Option<String>,
     technique: Option<String>,
     sizeX: Option<f32>,
     sizeY: Option<f32>,
@@ -88,8 +88,8 @@ pub struct Artwork {
     location: Option<String>,
     period: Option<String>,
     serie: Option<String>,
-    genres: Vec<String>,
-    styles: Vec<String>,
+    genres: Option<Vec<String>>,
+    styles: Option<Vec<String>>,
     media: Vec<String>,
     size_x: Option<f32>,
     size_y: Option<f32>,
@@ -109,18 +109,18 @@ impl Artwork {
             location: source.location,
             period: source.period,
             serie: source.serie,
-            genres: source
-                .genre
-                .as_str()
-                .split(',')
-                .map(|s| s.trim().to_string())
-                .collect(),
-            styles: source
-                .style
-                .as_str()
-                .split(',')
-                .map(|s| s.trim().to_string())
-                .collect(),
+            genres: source.genre.map(|g| {
+                g.as_str()
+                    .split(',')
+                    .map(|s| s.trim().to_string())
+                    .collect()
+            }),
+            styles: source.style.map(|s| {
+                s.as_str()
+                    .split(',')
+                    .map(|s| s.trim().to_string())
+                    .collect()
+            }),
             media: source
                 .material
                 .unwrap_or("".to_string())
@@ -155,8 +155,8 @@ impl Artwork {
             },
             period: source.period.map(|p| p.title),
             serie: source.serie.map(|s| s.title),
-            genres: source.genres,
-            styles: source.styles,
+            genres: Some(source.genres),
+            styles: Some(source.styles),
             media: source.media,
             size_x: source.sizeX,
             size_y: source.sizeY,
