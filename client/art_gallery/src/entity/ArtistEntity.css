@@ -1,0 +1,16 @@
+.Artist {
+    /* display: grid; */
+    /* grid-template-rows: 1fr 20fr; */
+}
+
+.Artist-artworks {
+    color: black;
+    font-size: 32px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.Artist-artworks:hover {
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}

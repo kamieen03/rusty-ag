@@ -1,0 +1,22 @@
+.SearchResults {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+}
+
+.SearchResults-list > h1 {
+    font-size: 32px;
+}
+
+.SearchResults-list:nth-child(1) {
+    grid-column: 2 / 5;
+}
+
+.SearchResults-list:nth-child(2) {
+    grid-column: 6 / 9;
+}
+
+.SearchResults-list:nth-child(3) {
+    grid-column: 10 / 13;
+} 
+
+
