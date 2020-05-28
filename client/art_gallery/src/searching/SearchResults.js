@@ -15,15 +15,19 @@ export default class SearchResults extends Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.searchPhrase !== prevProps.searchPhrase) {
-            console.log(this.state.results);
+            if (this.props.searchPhrase === "") return;
             this.fetchSearchResults(this.props.searchPhrase)
-                .then(data => this.setState({ results: data }))
+                .then(data => {
+                    if (data != null) this.setState({ results: data })
+                });
         }
     }
 
     async fetchSearchResults(phrase) {
         const response = fetch(`${GET_SEARCH_URL}${phrase}`)
-        return (await response).json()
+        if (phrase === this.props.searchPhrase)
+            return (await response).json()
+        return null
     }
 
     render() {

@@ -22,11 +22,13 @@ export default class Searcher extends React.Component {
 	render() {
 		return (
 			<div className="Searcher">
-				<IconButton onClick={this.props.onStopSearching} className="Searcher-close">
-					<MdClose className="Searcher-close-icon"/>
-				</IconButton>
-				<input className="Searcher-searchbar"type="search"  placeholder="Search" onChange={this.handleSearchPhraseChange}/>
-				<SearchResults searchPhrase={this.state.phrase} onLinkClick={this.props.onStopSearching}/>
+                <div className="SearcherInsides">
+                    <IconButton onClick={this.props.onStopSearching} className="Searcher-close">
+                        <MdClose className="Searcher-close-icon"/>
+                    </IconButton>
+                    <input className="Searcher-searchbar"type="search" placeholder="Search" onChange={this.handleSearchPhraseChange}/>
+                    <SearchResults searchPhrase={this.state.phrase} onLinkClick={this.props.onStopSearching}/>
+                </div>
 			</div>
 		);
 	}
