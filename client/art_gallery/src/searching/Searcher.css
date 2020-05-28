@@ -1,17 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&display=swap');
 
 .Searcher {
-    display: grid;
-    grid-template-rows:10fr 20fr 70fr;
     justify-self: stretch;
     background-color: #E7E6E6;
     opacity: 98%;
 }
 
+.SearcherInsides {
+    display: grid;
+}
+
 .Searcher-searchbar {
     font-family: 'Roboto', sans-serif;
-    align-self: center;
-    justify-self: center;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
     height: 65px;
     width: 46vw;
     font-size: 32px;
@@ -31,5 +34,5 @@
 }
 
 .Searcher-results {
-    margin: 0px 15% 0 15%;
+    margin: 0 15% 0 15%;
 }
