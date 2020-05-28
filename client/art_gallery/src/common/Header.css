@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta+Malar:wght@700&display=swap');
+
+.header {
+	text-align: center;
+}
+
+.header-logo {
+	font-family: 'Mukta Malar', sans-serif;
+	font-size: 100px;
+	font-weight: 700;
+	letter-spacing: 30px;
+}
+
+.header-search {
+	color: black;
+	font-size: 56px;
+}
