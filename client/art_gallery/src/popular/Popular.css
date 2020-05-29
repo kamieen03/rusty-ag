@@ -2,8 +2,12 @@
     display: flex;
     justify-content: space-between;
     height: 40%;
+    align-items: center;
+    margin-top: 40px;
 }
 
-.MuiButtonBase-root {
-    vertical-allign: middle;
+.Carousel > button {
+    margin-right: 40px;
+    margin-left:  40px;
+    height: 400px;
 }
