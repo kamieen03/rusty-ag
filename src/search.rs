@@ -138,8 +138,21 @@ pub struct SearchData {
     styles: Vec<style::Style>,
 }
 
+impl SearchData {
+    fn empty() -> Self {
+        SearchData {
+            artists: vec![],
+            artworks: vec![],
+            styles: vec![],
+        }
+    }
+}
+
 #[get("/search/<query>")]
 pub fn search(query: String) -> Json<SearchData> {
+    if query.len() < 2 {
+        return Json(SearchData::empty());
+    }
     let artists = artist::get_artists(&query);
     let artworks = match artwork::get_artworks(&query) {
         Ok(works) => works,
