@@ -1,4 +1,9 @@
 .Carousel {
     display: flex;
-    justify-content: space-between
+    justify-content: space-between;
+    height: 40%;
+}
+
+.MuiButtonBase-root {
+    vertical-allign: middle;
 }
