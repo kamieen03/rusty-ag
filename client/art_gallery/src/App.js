@@ -4,6 +4,8 @@ import Header from './common/Header.js'
 import Searcher from './searching/Searcher.js'
 import ArtistEntity from './entity/ArtistEntity';
 import Paintings from './entity/Paintings'
+import Popular from './popular/Popular'
+
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -43,6 +45,7 @@ class App extends React.Component {
 							<Route path="/artist/:artistId/paintings/" component={Paintings} />
 							<Route path="/artist/:artistId/" component={ArtistEntity} />
 							<Route path="/paintings/:artworkId/" component={ArtworkEntity} />
+                            <Route path="/" component={Popular}/>
 						</Switch>
 					</main>
 					{this.state.isSearching
