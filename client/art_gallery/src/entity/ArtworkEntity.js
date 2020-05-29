@@ -21,7 +21,13 @@ export default class ArtworkEntity extends Component {
     }
 
     render() {
-        const { artworkId } = this.props.match.params
+        var artworkId;
+        if ('match' in this.props) {
+            artworkId = this.props.match.params
+        } else {
+            artworkId = this.props.artworkId
+        }
+
         const title = "title";
         const fields = [
             ["artist_name", "Artist"], 
