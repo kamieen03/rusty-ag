@@ -21,7 +21,10 @@ export default class Popular extends Component {
         this.fetchPopular()
             .then(data => {
                 this.setState({ paintings: data });
-                setInterval(()=>this.scroll(1), 7000)
+                setInterval(() => {
+                    if (this.state.auto_spin) {
+                        this.scroll(1)
+                    }}, 7000)
             })
     }
 
