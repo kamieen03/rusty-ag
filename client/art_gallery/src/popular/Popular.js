@@ -23,7 +23,7 @@ export default class Popular extends Component {
                 this.setState({ paintings: data });
                 setInterval(() => {
                     if (this.state.auto_spin) {
-                        this.scroll(1)
+                        this.scroll(1, true)
                     }}, 7000)
             })
     }
@@ -33,8 +33,8 @@ export default class Popular extends Component {
         return (await result).json()
     }
 
-    scroll(n) {
-        this.setState({ auto_spin: false,
+    scroll(n, auto_spin) {
+        this.setState({ auto_spin: auto_spin,
                         paintings_iter: (()=>{
                             const k = (this.state.paintings_iter+n) % this.state.paintings.length;
                             if (k >= 0) return k;
@@ -49,11 +49,11 @@ export default class Popular extends Component {
         if (this.state.paintings != null) {
             return (
                 <div className="Carousel">
-                    <IconButton onClick={() => this.scroll(-1)} >
+                    <IconButton onClick={() => this.scroll(-1, false)} >
                         <MdKeyboardArrowLeft />
                     </IconButton>
                         <ArtworkEntity artworkId={this.state.paintings[this.state.paintings_iter].id }/>
-                    <IconButton onClick={() => this.scroll(1)} >
+                    <IconButton onClick={() => this.scroll(1, false)} >
                         <MdKeyboardArrowRight/>
                     </IconButton>
                 </div>
