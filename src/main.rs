@@ -21,7 +21,6 @@ fn index() -> Option<NamedFile> {
 }
 
 fn main() {
-//    style_transfer::transform();
     let react_routes = routes![
         index,
         react_routes::manifest,
