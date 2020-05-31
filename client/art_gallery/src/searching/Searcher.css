@@ -3,7 +3,7 @@
 .Searcher {
     justify-self: stretch;
     background-color: #E7E6E6;
-    opacity: 98%;
+    opacity: 0.98;
 }
 
 .SearcherInsides {
