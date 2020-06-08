@@ -1,0 +1,24 @@
+.ArtworkCell {
+    display: flex;
+    flex-direction: column;
+}
+
+.ArtworkCell-picture {
+    flex: 1 0 auto;
+    display: block;
+    object-fit: cover;
+    border: 2px black solid;
+}
+
+.ArtworkCell-description {
+    flex: 0 0 12%;
+}
+
+.ArtworkCell-description-title {
+    padding-top: 0.5em;
+    font-weight: 700;
+}
+
+.ArtworkCell-description-year {
+    font-style: italic; 
+}
