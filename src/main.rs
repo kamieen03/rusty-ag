@@ -3,21 +3,32 @@
 #[macro_use]
 extern crate rocket;
 
+use rocket::response::NamedFile;
+use std::path::Path;
+
 mod artist;
 mod artwork;
 mod movement;
 mod popular;
+mod react_routes;
 mod search;
 mod wikiartapi;
 
-#[get("/")]
-fn hello() -> &'static str {
-    "Hello, world!"
+#[get("/", format = "html")]
+fn index() -> Option<NamedFile> {
+    NamedFile::open(Path::new("static/build/index.html")).ok()
 }
 
 fn main() {
-    let routes = routes![
-        hello,
+    let react_routes = routes![
+        index,
+        react_routes::manifest,
+        react_routes::js_files,
+        react_routes::css_files,
+        react_routes::logo192,
+        react_routes::logo512,
+    ];
+    let api_routes = routes![
         search::search,
         artist::artist,
         artist::artist_paintings,
@@ -26,5 +37,8 @@ fn main() {
         movement::movement,
         popular::popular_paintings,
     ];
-    rocket::ignite().mount("/", routes).launch();
+    rocket::ignite()
+        .mount("/", react_routes)
+        .mount("/api/", api_routes)
+        .launch();
 }
