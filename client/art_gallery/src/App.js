@@ -3,7 +3,7 @@ import './App.css'
 import Header from './common/Header.js'
 import Searcher from './searching/Searcher.js'
 import ArtistEntity from './entity/ArtistEntity';
-import Paintings from './entity/Paintings'
+import Paintings from './grid/ArtworksGrid'
 import Popular from './popular/Popular'
 
 import {

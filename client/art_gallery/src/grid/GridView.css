@@ -1,0 +1,19 @@
+.GridView {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+    grid-auto-rows: 1fr;
+    grid-gap: 1.5em;
+}
+
+.GridView::before {
+    content: '';
+    padding-bottom: 111.1%;
+    grid-row: 1 / 1;
+    grid-column: 1 / 1;
+}
+
+.GridView > *:first-child {
+    grid-row: 1 / 1;
+    grid-column: 1 / 1;
+}
+
