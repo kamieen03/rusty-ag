@@ -1,13 +1,21 @@
-.Carousel {
-    display: flex;
-    justify-content: space-between;
-    height: 40%;
-    align-items: center;
-    margin-top: 40px;
+.Popular {
+    display: grid;
+    grid-template-rows: 8fr 1fr 1fr;
+    align-items: end;
+    height: 100%;
 }
 
-.Carousel > button {
-    margin-right: 40px;
-    margin-left:  40px;
-    height: 400px;
+.Popular-artwork {
+    grid-row: 1 / 2;
+}
+
+.Popular-buttons {
+    grid-row: 3 / 4;
+    justify-self: center;
+}
+
+.Popular-buttons > button {
+    margin: 0 0.5em 0 0.5em;
+    color: black;
+    font-size: 32px;
 }

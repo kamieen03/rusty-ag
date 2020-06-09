@@ -29,7 +29,15 @@ export default class ArtistEntity extends Component {
 
         return (
             <div className="Artist">
-                <Entity id={artistId} url={GET_ARTIST_URL} title={name} fields={fields} imgField={imgField} onEntityLoad={this.handleArtistLoad} onEntityUpdate={this.handleArtistUpdate} />
+                <Entity id={artistId} 
+                    url={GET_ARTIST_URL} 
+                    title={name} 
+                    fields={fields} 
+                    imgField={imgField} 
+                    onEntityLoad={this.handleArtistLoad} 
+                    onEntityUpdate={this.handleArtistUpdate} 
+                    className="Artist-entity"
+                />
                 {this.state.isEntityLoaded
                     ? <Link className="Artist-artworks" to={`/artist/${artistId}/paintings/`}>See artworks</Link>
                     : null }
