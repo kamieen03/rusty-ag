@@ -74,7 +74,7 @@ export default class Entity extends Component {
                         <h1 className="Entity-description-title">{this.state.data[this.props.title]}</h1>
                         {this.generateDescription()}
                     </div>
-                    <img className="Entity-image" src={this.state.data[this.props.imgField]} alt="" />
+                    <div className="Entity-image" style={{backgroundImage: `url("${this.state.data[this.props.imgField]}")`}}></div>
                 </div>
             )
         } else {

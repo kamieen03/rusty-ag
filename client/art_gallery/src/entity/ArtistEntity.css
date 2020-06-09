@@ -1,9 +1,16 @@
 .Artist {
-    /* display: grid; */
-    /* grid-template-rows: 1fr 20fr; */
+    display: grid;
+    grid-template-rows: 8fr 1fr 1fr;
+    height: 100%;
+}
+
+.Artist-entity {
+    grid-row: 1 / 2;
 }
 
 .Artist-artworks {
+    grid-row: 3 / 4;
+    place-self: center;
     color: black;
     font-size: 32px;
     font-weight: 700;
