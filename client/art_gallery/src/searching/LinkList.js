@@ -5,10 +5,10 @@ import {Link} from "react-router-dom";
 export default function LinkList(props) {
 
     function generateLinks() {
-        return props.data.slice(0,8).map(elem => 
-            <li className="LinkList-item">
-                <Link to={props.url + elem[props.idFieldName]} onClick={() => props.onLinkClick()}>
-                    {elem[props.valueFieldName]}
+        return props.data.slice(0,8).map((item, i) => 
+            <li key={item[props.idFieldName]} className="LinkList-item">
+                <Link to={props.url + item[props.idFieldName]} onClick={() => props.onLinkClick()}>
+                    {item[props.valueFieldName]}
                 </Link>
             </li>
         )

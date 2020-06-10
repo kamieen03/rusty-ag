@@ -54,7 +54,7 @@ export default class Entity extends Component {
         return this.props.fields
             .filter(field => this.state.data[field[0]] != null)
             .map(field =>
-                <div className="Entity-description-item">
+                <div className="Entity-description-item" key={field[1]}>
                     <div className="Entity-description-item-property">
                         {field[1] + ":"}
                     </div>

@@ -9,7 +9,7 @@ export const GET_POPULAR_ARTWORKS = `${ROOT_URL}/popular/`;
 
 export const ARTIST_URL = '/artist/';
 export const ARTWORK_URL = '/paintings/';
-export const ART_MOVEMENT_URL = `${ROOT_URL}/art_movement/`;
+export const ART_MOVEMENT_URL = '/art_movement/';
 export const ARTIST_ARTWORKS_URL = (artistId) => `/artist/${artistId}/paintings/`;
 
-export const GRID_PAGE_SIZE = 5;
+export const GRID_PAGE_SIZE = 20;
