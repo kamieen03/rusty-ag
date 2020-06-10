@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { LazyLoadComponent } from 'react-lazy-load-image-component';
 import InfiniteScroll from 'react-infinite-scroller';
 import './GridView.css'
 
