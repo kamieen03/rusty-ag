@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import CubeSpinner from './../common/CubeSpinner.js'
 import './Entity.css'
+import { Link } from 'react-router-dom';
 
 export default class Entity extends Component {
     constructor(props) {
@@ -50,21 +51,49 @@ export default class Entity extends Component {
         return data
     }
 
-    generateDescription() {
+    createDescription() {
         return this.props.fields
-            .filter(field => this.state.data[field[0]] != null)
+            .filter(field => this.state.data[field.property] != null)
             .map(field =>
-                <div className="Entity-description-item" key={field[1]}>
+                <div className="Entity-description-item" key={field.caption}>
                     <div className="Entity-description-item-property">
-                        {field[1] + ":"}
+                        {field.caption + ":"}
                     </div>
                     <div className="Entity-description-item-value">
-                        {this.state.data[field[0]]}
+                        {this.createDescriptionItemValue(field)}
                     </div>
                 </div>
             );
     }
 
+    createDescriptionItemValue(field) {
+        const value = this.state.data[field.property];
+
+        if (Array.isArray(value)) {
+            return (
+                <ul>
+                    {value.map((item, i) =>
+                        <li key={i}>
+                            {this.convertArrayItem(field, item)}
+                        </li>)}
+                </ul>
+            )
+        }
+
+        return value;
+    }
+
+    convertArrayItem(field, item) {
+        if (typeof item === 'object') {
+            const link =
+                <Link to={"/" + item[field.itemUrlProperty]}>
+                    {item[field.itemIdProperty]}
+                </Link>;
+            return link;
+        }
+
+        return item
+    }
 
     render() {
         if (this.state.isLoaded) {
@@ -72,9 +101,9 @@ export default class Entity extends Component {
                 <div className="Entity">
                     <div className="Entity-description">
                         <h1 className="Entity-description-title">{this.state.data[this.props.title]}</h1>
-                        {this.generateDescription()}
+                        {this.createDescription()}
                     </div>
-                    <div className="Entity-image" style={{backgroundImage: `url("${this.state.data[this.props.imgField]}")`}}></div>
+                    <img className="Entity-image" src={this.state.data[this.props.imgField]} />
                 </div>
             )
         } else {

@@ -38,15 +38,15 @@ export default class SearchResults extends Component {
         return (
             <div className="SearchResults">
                 <div className="SearchResults-list">
-                    <h1>Artists</h1>
+                    <h2>Artists</h2>
                     <LinkList onLinkClick={this.props.onLinkClick} data={this.state.results.artists} idFieldName="url" valueFieldName="name" url={ARTIST_URL} />
                 </div>
                 <div className="SearchResults-list">
-                    <h1>Paintings</h1>
+                    <h2>Paintings</h2>
                     <LinkList onLinkClick={this.props.onLinkClick} data={this.state.results.artworks} idFieldName="id" valueFieldName="name" url={ARTWORK_URL} />
                 </div>
                 <div className="SearchResults-list">
-                    <h1>Styles</h1>
+                    <h2>Styles</h2>
                     <LinkList onLinkClick={this.props.onLinkClick} data={this.state.results.styles} idFieldName="url" valueFieldName="title" url={ART_MOVEMENT_URL} />
                 </div>
             </div>

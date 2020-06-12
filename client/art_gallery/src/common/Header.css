@@ -6,7 +6,7 @@
 
 .header-logo {
 	font-family: 'Mukta Malar', sans-serif;
-	font-size: 100px;
+	font-size: 72px;
 	font-weight: 700;
 	letter-spacing: 30px;
 }
@@ -18,5 +18,5 @@
 
 .header-search {
 	color: black;
-	font-size: 56px;
+	font-size: 40px;
 }
