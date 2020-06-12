@@ -1,7 +1,7 @@
 import React from 'react'
 import './ArtMovementCell.css'
 import { Link } from 'react-router-dom'
-import { ART_MOVEMENT_URL, ARTIST_URL } from '../constants'
+import { ARTIST_URL, ARTWORK_URL } from '../constants'
 import { nameToId } from './../helper'
 
 export default function ArtMovementCell(props) {
@@ -14,7 +14,7 @@ export default function ArtMovementCell(props) {
     return (
         <div className="ArtMovementCell">
             <div className="ArtMovementCell-picture">
-                <Link to={ART_MOVEMENT_URL + props.contentId}>
+                <Link to={ARTWORK_URL + props.data.id}>
                     <div style={backgroundImageStyle}></div>
                 </Link>
             </div>

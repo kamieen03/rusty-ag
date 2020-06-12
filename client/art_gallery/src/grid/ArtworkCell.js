@@ -13,7 +13,7 @@ export default function ArtworkCell(props) {
     return (
         <div className="ArtworkCell">
             <div className="ArtworkCell-picture">
-                <Link to={ARTWORK_URL + props.contentId}>
+                <Link to={ARTWORK_URL + props.data.contentId}>
                     <div style={backgroundImageStyle}></div>
                 </Link>
             </div>

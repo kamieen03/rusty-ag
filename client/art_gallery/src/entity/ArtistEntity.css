@@ -1,15 +1,17 @@
 .Artist {
-    display: grid;
-    grid-template-rows: 8fr 1fr 1fr;
+    /* display: grid; */
+    /* grid-template-rows: fit-content(9fr) auto; */
+    display: flex;
+    flex-direction: column;
     height: 100%;
 }
 
 .Artist-entity {
-    grid-row: 1 / 2;
+    /* grid-row: 1 / 2; */
 }
 
 .Artist-artworks {
-    grid-row: 3 / 4;
+    /* grid-row: 2 / 3; */
     place-self: center;
     color: black;
     font-size: 32px;

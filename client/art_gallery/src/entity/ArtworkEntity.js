@@ -21,22 +21,24 @@ export default class ArtworkEntity extends Component {
     }
 
     render() {
-        var artworkId;
+        let artworkId;
         if ('match' in this.props) {
-            artworkId = this.props.match.params
+            artworkId = this.props.match.params.artworkId
         } else {
             artworkId = this.props.artworkId
         }
 
         const title = "title";
+        
         const fields = [
-            ["artist_name", "Artist"], 
-            ["completition_year", "Completition year"], 
-            ["location", "Location"],
-            ["gallery", "Gallery"],
-            ["size_x", "Width"],
-            ["size_y", "Height"]
-        ];
+            { caption: "Artist", property: "artist_name" },
+            { caption: "Year", property: "completition_year" },
+            { caption: "Location", property: "location" },
+            { caption: "Gallery", property: "gallery" },
+            { caption: "Media", property: "media" },
+            { caption: "Width", property: "size_x" },
+            { caption: "Height", property: "size_y" },
+        ]
         
         const imgField = "image";
 
