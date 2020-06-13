@@ -1,9 +1,27 @@
 use lazy_static::lazy_static;
 use rocket_contrib::json::Json;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
 lazy_static! {
     static ref CLIENT: reqwest::blocking::Client = reqwest::blocking::Client::new();
+
+    static ref STYLES: HashMap<String, String> = {
+        let path = "static/styles.json";
+        let json = std::fs::read_to_string(path).unwrap();
+        let temp = serde_json::from_str::<Vec<Style>>(&json);
+        println!("{:?}", temp);
+
+            temp.unwrap().into_iter()
+            .map(|s| (s.name, format!("art_movement/{}", s.url)) )  //name, url
+            .collect()
+    };
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Style {
+    name: String,
+    url: String,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -89,7 +107,7 @@ pub struct Artwork {
     period: Option<String>,
     serie: Option<String>,
     genres: Option<Vec<String>>,
-    styles: Option<Vec<String>>,
+    styles: Option<Vec<Style>>,
     media: Vec<String>,
     size_x: Option<f32>,
     size_y: Option<f32>,
@@ -118,7 +136,13 @@ impl Artwork {
             styles: source.style.map(|s| {
                 s.as_str()
                     .split(',')
-                    .map(|s| s.trim().to_string())
+                    .filter_map(|s| {
+                        let key = s.trim().to_string();
+                        STYLES.get_key_value(&key).map(|(name, url)| Style {
+                            name: name.to_string(),
+                            url: url.to_string(),
+                        })
+                    })
                     .collect()
             }),
             media: source
@@ -156,7 +180,19 @@ impl Artwork {
             period: source.period.map(|p| p.title),
             serie: source.serie.map(|s| s.title),
             genres: Some(source.genres),
-            styles: Some(source.styles),
+            styles: {
+                let s = source
+                    .styles
+                    .into_iter()
+                    .filter_map(|s| {
+                        STYLES.get_key_value(&s).map(|(name, url)| Style {
+                            url: url.to_string(),
+                            name: name.to_string(),
+                        })
+                    })
+                    .collect();
+                Some(s)
+            },
             media: source.media,
             size_x: source.sizeX,
             size_y: source.sizeY,
