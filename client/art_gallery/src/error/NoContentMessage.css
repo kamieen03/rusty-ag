@@ -1,0 +1,16 @@
+.NoContentMessage {
+    display: flex;
+    flex-direction: column;
+}
+
+.NoContentMessage-dialog {
+    font-size: 24px;
+    font-style: italic;
+}
+
+.NoContentMessage-icon {
+    margin-top: 0.3em;
+    font-size: 32px;
+    margin-right: auto;
+    margin-left: auto;
+}
