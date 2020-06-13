@@ -2,12 +2,16 @@ import React, { Component } from 'react'
 import CubeSpinner from './../common/CubeSpinner.js'
 import './Entity.css'
 import { Link } from 'react-router-dom';
+import NoContentMessage from './../error/NoContentMessage'
+import NoPhotoAvailable from './../error/NoPhotoAvailable'
 
 export default class Entity extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isLoaded: false,
+            hasError: false,
+            hasErrorImage: false,
             data: null,
         };
     }
@@ -31,26 +35,39 @@ export default class Entity extends Component {
 
 
     async updateArtist() {
-        const receivedData = await this.fetchEntityData();
-        const img = new Image();
-
-        img.onload = () => {
+        try {
+            const response = await fetch(`${this.props.url}${this.props.id}`);
+            const receivedData = await response.json();
             this.setState({
-                isLoaded: true,
                 data: receivedData,
+                hasError: false
             });
-            this.props.onEntityLoad();
-        };
 
-        img.src = receivedData[this.props.imgField];
+            const img = new Image();
+
+            img.onload = () => {
+                this.setState({
+                    isLoaded: true,
+                    hasErrorImage: false,
+                });
+                this.props.onEntityLoad();
+            };
+
+            img.onerror = () => {
+                this.setState({
+                    isLoaded: true,
+                    hasErrorImage: true,
+                });
+                this.props.onEntityLoad();
+            }
+
+            img.src = receivedData[this.props.imgField];
+        } catch (e) {
+            this.setState({
+                hasError: true
+            });
+        }
     }
-
-    async fetchEntityData() {
-        const response = await fetch(`${this.props.url}${this.props.id}`);
-        const data = await response.json()
-        return data
-    }
-
     createDescription() {
         return this.props.fields
             .filter(field => this.state.data[field.property] != null)
@@ -96,17 +113,37 @@ export default class Entity extends Component {
     }
 
     render() {
-        if (this.state.isLoaded) {
+        if (this.state.isLoaded && this.state.data != null && !this.state.hasError) {
+            const title = this.state.data[this.props.title];
+
             return (
                 <div className="Entity">
                     <div className="Entity-description">
-                        <h1 className="Entity-description-title">{this.state.data[this.props.title]}</h1>
+                        <h1 className="Entity-description-title">
+                            {title
+                                ? title
+                                : "No title"
+                            }
+                        </h1>
                         {this.createDescription()}
                     </div>
-                    <img className="Entity-image" src={this.state.data[this.props.imgField]} />
+                    <div className="Entity-presentation">
+                        {!this.state.hasErrorImage
+                            ? <img className="Entity-presentation-image" src={this.state.data[this.props.imgField]} />
+                            : <NoPhotoAvailable />
+                        }
+                    </div>
+
                 </div>
             )
-        } else {
+        } else if (this.state.hasError) {
+            return (
+                <div className="Entity-nocontent">
+                    <NoContentMessage />
+                </div>
+            )
+        }
+        else {
             return (
                 <div>
                     <CubeSpinner />

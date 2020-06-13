@@ -1,0 +1,17 @@
+.NoPhotoAvailable {
+    display: flex;
+    flex-direction: column;
+}
+
+.NoPhotoAvailable-icon {
+    font-size: 400px;
+    margin-bottom: -30px;
+    background-color: white;
+}
+
+.NoPhotoAvailable-dialog {
+    text-align: center;
+    font-style: italic;
+    font-size: 24px;;
+}
+
