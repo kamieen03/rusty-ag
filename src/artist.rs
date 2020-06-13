@@ -31,13 +31,13 @@ mod artist_info {
             dictonaries: Vec<i32>,
             pub gender: String,
             pub image: String,
-            lastNameFirst: String,
+            lastNameFirst: Option<String>,
             periodsOfWork: String,
             series: String,
-            story: String,
+            story: Option<String>,
             themes: String,
             url: String,
-            pub wikipediaUrl: String,
+            pub wikipediaUrl: Option<String>,
         }
 
         pub async fn fetch_artist_info(url: &String) -> Result<ArtistInfoAPI, reqwest::Error> {
@@ -60,23 +60,27 @@ mod artist_info {
             data: String,
         }
 
-        pub async fn fetch_wiki_info(url: &String) -> Result<WikipediaBiography, reqwest::Error> {
+        pub async fn fetch_wiki_info(url: &String) -> Result<Option<WikipediaBiography>, reqwest::Error> {
             let url = format!("https://www.wikiart.org/en/{}", url);
             let html = CLIENT.get(&url).send().await?.text().await?;
             let document = Html::parse_document(&html);
             let selector =
                 Selector::parse("div.wiki-layout-artist-info-tab[id=info-tab-wikipediaArticle]")
                     .unwrap();
-            let bio: String = document
+            let bio: Option<String> = document
                 .select(&selector)
                 .next()
-                .unwrap()
-                .select(&Selector::parse("p").unwrap())
-                .next()
-                .unwrap()
-                .text()
-                .collect();
-            Ok(WikipediaBiography { data: bio })
+                .map(|s|
+                    s.select(&Selector::parse("p").unwrap())
+                     .next()
+                     .unwrap()
+                     .text()
+                     .collect()
+                     );
+            match bio {
+                None => Ok(None),
+                Some(bio) => Ok(Some(WikipediaBiography { data: bio })),
+            }
         }
     }
 
@@ -220,15 +224,15 @@ mod artist_info {
         sex: String,
         image_url: String,
         biography: Option<String>,
-        wiki_biography: wiki_info::WikipediaBiography,
-        wiki_url: String,
+        wiki_biography: Option<wiki_info::WikipediaBiography>,
+        wiki_url: Option<String>,
     }
 
     impl Artist {
         pub fn new(
             info: api_info::ArtistInfoAPI,
             main_page: main_page_info::MainPageInfo,
-            wiki_info: wiki_info::WikipediaBiography,
+            wiki_info: Option<wiki_info::WikipediaBiography>,
         ) -> Self {
             Artist {
                 name: info.artistName,
@@ -259,7 +263,7 @@ mod artist_info {
     ) -> (
         reqwest::Result<api_info::ArtistInfoAPI>,
         reqwest::Result<main_page_info::MainPageInfo>,
-        reqwest::Result<wiki_info::WikipediaBiography>,
+        reqwest::Result<Option<wiki_info::WikipediaBiography>>,
     ) {
         let f1 = api_info::fetch_artist_info(url);
         let f2 = main_page_info::fetch_main_page_data(url);
