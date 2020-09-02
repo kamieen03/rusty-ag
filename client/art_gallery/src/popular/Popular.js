@@ -25,7 +25,7 @@ export default class Popular extends Component {
                     if (this.state.auto_spin) {
                         this.scroll(1, true)
                     }
-                }, 70007000)
+                }, 7000)
             })
     }
 

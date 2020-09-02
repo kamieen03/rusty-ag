@@ -117,8 +117,9 @@ mod style {
     }
 
     #[derive(Serialize, Deserialize, Clone)]
+    #[derive(Debug)]
     pub struct Style {
-        title: String,
+        name: String,
         url: String,
     }
 

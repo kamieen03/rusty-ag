@@ -18,7 +18,7 @@ mod artist_info {
         #[allow(non_snake_case)]
         pub struct ArtistInfoAPI {
             relatedArtistsIds: Vec<String>,
-            pub OriginalArtistName: String,
+            pub OriginalArtistName: Option<String>,
             activeYearsCompletion: Option<i32>,
             activeYearsStart: Option<i32>,
             pub artistName: String,
@@ -211,7 +211,7 @@ mod artist_info {
     #[derive(Serialize)]
     pub struct Artist {
         name: String,
-        long_name: String,
+        long_name: Option<String>,
         birth: String,
         death: Option<String>,
         active_years: Option<String>,

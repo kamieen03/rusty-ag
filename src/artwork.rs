@@ -10,9 +10,8 @@ lazy_static! {
         let path = "static/styles.json";
         let json = std::fs::read_to_string(path).unwrap();
         let temp = serde_json::from_str::<Vec<Style>>(&json);
-        println!("{:?}", temp);
 
-            temp.unwrap().into_iter()
+        temp.unwrap().into_iter()
             .map(|s| (s.name, format!("art_movement/{}", s.url)) )  //name, url
             .collect()
     };

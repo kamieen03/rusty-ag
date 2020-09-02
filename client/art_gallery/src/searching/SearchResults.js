@@ -47,7 +47,7 @@ export default class SearchResults extends Component {
                 </div>
                 <div className="SearchResults-list">
                     <h2>Styles</h2>
-                    <LinkList onLinkClick={this.props.onLinkClick} data={this.state.results.styles} idFieldName="url" valueFieldName="title" url={ART_MOVEMENT_URL} />
+                    <LinkList onLinkClick={this.props.onLinkClick} data={this.state.results.styles} idFieldName="url" valueFieldName="name" url={ART_MOVEMENT_URL} />
                 </div>
             </div>
         )
