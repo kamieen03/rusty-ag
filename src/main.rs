@@ -12,6 +12,7 @@ mod movement;
 mod popular;
 mod react_routes;
 mod search;
+mod style_transfer;
 mod wikiartapi;
 
 #[get("/", format = "html")]
@@ -20,6 +21,7 @@ fn index() -> Option<NamedFile> {
 }
 
 fn main() {
+//    style_transfer::transform();
     let react_routes = routes![
         index,
         react_routes::manifest,

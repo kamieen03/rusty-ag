@@ -1,6 +1,6 @@
 use lazy_static::lazy_static;
 use tch;
-use tch::{nn, CModule, vision::image, Tensor};
+use tch::{CModule, vision::image, Tensor};
 
 lazy_static! {
     static ref ENCODER: CModule = tch::CModule::load("src/style_transfer/encoder.pt").unwrap();
@@ -20,9 +20,9 @@ pub fn transform_() {
                     .unsqueeze(0)
                     .to_kind(tch::Kind::Float) / 255.;
 
-    let cF = ENCODER.forward_ts(&[content]).unwrap();
-    let sF = ENCODER.forward_ts(&[style]).unwrap();
-    let mut image = Tensor::cat(&[cF,sF], 0);
+    let c_f = ENCODER.forward_ts(&[content]).unwrap();
+    let s_f = ENCODER.forward_ts(&[style]).unwrap();
+    let mut image = Tensor::cat(&[c_f,s_f], 0);
     image = MATRIX.forward_ts(&[image]).unwrap();
     image = DECODER.forward_ts(&[image]).unwrap().squeeze();
 
