@@ -24,12 +24,28 @@ export default class ArtistEntity extends Component {
     render() {
         const { artistId } = this.props.match.params
         const name = "name";
-        const fields = [["birth", "Born"], ["death", "Died"]];
         const imgField= "image_url";
+
+        const fields = [
+            { caption: "Born", property: "birth" },
+            { caption: "Died", property: "death" },
+            { caption: "Nationality", property: "nationality" },
+            { caption: "Painting school", property: "painting_school" },
+            { caption: "Art movement", property: "art_movement", itemIdProperty: "name", itemUrlProperty: "url" },
+            { caption: "Influenced by", property: "influenced_by", itemIdProperty: "name", itemUrlProperty: "url" },
+        ]
 
         return (
             <div className="Artist">
-                <Entity id={artistId} url={GET_ARTIST_URL} title={name} fields={fields} imgField={imgField} onEntityLoad={this.handleArtistLoad} onEntityUpdate={this.handleArtistUpdate} />
+                <Entity id={artistId} 
+                    url={GET_ARTIST_URL} 
+                    title={name} 
+                    fields={fields} 
+                    imgField={imgField} 
+                    onEntityLoad={this.handleArtistLoad} 
+                    onEntityUpdate={this.handleArtistUpdate} 
+                    className="Artist-entity"
+                />
                 {this.state.isEntityLoaded
                     ? <Link className="Artist-artworks" to={`/artist/${artistId}/paintings/`}>See artworks</Link>
                     : null }

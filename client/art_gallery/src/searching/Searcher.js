@@ -26,7 +26,7 @@ export default class Searcher extends React.Component {
                     <IconButton onClick={this.props.onStopSearching} className="Searcher-close">
                         <MdClose className="Searcher-close-icon"/>
                     </IconButton>
-                    <input className="Searcher-searchbar"type="search" placeholder="Search" onChange={this.handleSearchPhraseChange}/>
+                    <input className="Searcher-searchbar" type="search" placeholder="Search" onChange={this.handleSearchPhraseChange}/>
                     <SearchResults searchPhrase={this.state.phrase} onLinkClick={this.props.onStopSearching}/>
                 </div>
 			</div>

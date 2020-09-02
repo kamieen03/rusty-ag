@@ -1,13 +1,18 @@
-.Carousel {
+.Popular {
     display: flex;
-    justify-content: space-between;
-    height: 40%;
-    align-items: center;
-    margin-top: 40px;
+    flex-direction: column;
+    height: 100%;
 }
 
-.Carousel > button {
-    margin-right: 40px;
-    margin-left:  40px;
-    height: 400px;
+.Popular-buttons {
+    justify-content: center;
+    display: flex;
 }
+
+.Popular-buttons > button {
+    margin: 0 0.5em 0 0.5em;
+    color: black;
+    font-size: 32px;
+}
+
+

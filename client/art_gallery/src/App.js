@@ -3,7 +3,7 @@ import './App.css'
 import Header from './common/Header.js'
 import Searcher from './searching/Searcher.js'
 import ArtistEntity from './entity/ArtistEntity';
-import Paintings from './entity/Paintings'
+import ArtworksGrid from './grid/ArtworksGrid'
 import Popular from './popular/Popular'
 
 import {
@@ -12,6 +12,7 @@ import {
 	Route,
 } from "react-router-dom";
 import ArtworkEntity from './entity/ArtworkEntity';
+import ArtMovementGrid from './grid/ArtMovementGrid';
 
 
 class App extends React.Component {
@@ -42,9 +43,10 @@ class App extends React.Component {
 					</header>
 					<main className="App-main">
 						<Switch>
-							<Route path="/artist/:artistId/paintings/" component={Paintings} />
+							<Route path="/artist/:artistId/paintings/" component={ArtworksGrid} />
 							<Route path="/artist/:artistId/" component={ArtistEntity} />
 							<Route path="/paintings/:artworkId/" component={ArtworkEntity} />
+							<Route path="/art_movement/:artMovementId/" component={ArtMovementGrid} />
                             <Route path="/" component={Popular}/>
 						</Switch>
 					</main>

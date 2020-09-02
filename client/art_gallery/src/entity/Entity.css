@@ -1,21 +1,25 @@
 .Entity {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 100%;
+    padding-bottom: 2em;
 }
 
 .Entity-description {
+    flex: 1 0 50%;
     font-family: 'Roboto', sans-serif;
-    margin-right: 40px;
+    padding-right: 1%;
 }
 
 .Entity-description-title {
-    font-size: 42px;
+    font-size: 36px;
+    margin-bottom: 0.9em;
 }
 
 .Entity-description-item {
-    display: flex;
-    margin: 0.7em 0 0.7em 0;
-    font-size: 32px;
+    margin-bottom: 0.75em;
+    font-size: 24px;
 }
 
 .Entity-description-item-property {
@@ -23,15 +27,46 @@
 }
 
 .Entity-description-item-value {
+    display: flex;
+    flex-wrap: wrap;
     font-style: italic;
-    margin-left: 0.4em;
-    
 }
 
-.Entity-image {
-    border: 8px solid black;
-    box-shadow: 10px 6px 4px rgba(0, 0, 0, 0.25);
-    
-    min-height: 100%;
-    height: 100%;
+.Entity-description-item-value a {
+    text-decoration: none;
+    color: black;
+}
+
+.Entity-description-item-value > ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.Entity-description-item-value > ul > li {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.Entity-description-item-value a:hover {
+    text-decoration: underline;
+}
+
+.Entity-presentation {
+    flex: 1 0 50%;
+    display: flex;
+    align-items: start;
+}
+
+.Entity-presentation-image {
+    object-fit: contain !important;
+    filter:
+      drop-shadow(0 -2px 0 black)
+      drop-shadow(0 2px 0 black)
+      drop-shadow(-2px 0 0 black)
+      drop-shadow(2px 0 0 black);
+}
+
+.Entity-nocontent {
+    margin: auto;
 }
