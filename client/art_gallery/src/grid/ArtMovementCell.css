@@ -1,0 +1,36 @@
+.ArtMovementCell {
+    display: flex;
+    flex-direction: column;
+}
+
+.ArtMovementCell-picture {
+    flex: 1 0 auto;
+    display: block;
+    object-fit: cover;
+    border: 2px black solid;
+}
+
+.ArtMovementCell-description {
+    margin-top: 0.5em;
+    flex: 0 0 12%;
+}
+
+.ArtMovementCell-description-title {
+    font-weight: 700;
+}
+
+.ArtMovementCell-description-artist {
+    display: block;
+    text-decoration: none;
+    color: black;
+    margin-top: 0.25em;
+}
+.ArtMovementCell-description-artist:hover {
+    text-decoration: underline;
+}
+
+.ArtMovementCell-description-year {
+    font-style: italic; 
+    margin-top: 0.25em;
+}
+

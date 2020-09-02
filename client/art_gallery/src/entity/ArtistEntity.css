@@ -1,9 +1,11 @@
 .Artist {
-    /* display: grid; */
-    /* grid-template-rows: 1fr 20fr; */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .Artist-artworks {
+    place-self: center;
     color: black;
     font-size: 32px;
     font-weight: 700;
