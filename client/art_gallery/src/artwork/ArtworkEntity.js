@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Entity from './Entity.js'
+import Entity from '../entity/Entity.js'
 import { GET_ARTWORK_URL } from './../constants'
 import './ArtworkEntity.css'
 

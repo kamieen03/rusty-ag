@@ -2,8 +2,10 @@ import React from 'react';
 import './App.css'
 import Header from './common/Header.js'
 import Searcher from './searching/Searcher.js'
-import ArtistEntity from './entity/ArtistEntity';
-import ArtworksGrid from './grid/ArtworksGrid'
+import ArtistEntity from './artist/ArtistEntity';
+import ArtworkEntity from './artwork/ArtworkEntity';
+import ArtworksGrid from './artwork/ArtworksGrid'
+import ArtMovementGrid from './artmovement/ArtMovementGrid';
 import Popular from './popular/Popular'
 
 import {
@@ -11,8 +13,6 @@ import {
 	Switch,
 	Route,
 } from "react-router-dom";
-import ArtworkEntity from './entity/ArtworkEntity';
-import ArtMovementGrid from './grid/ArtMovementGrid';
 
 
 class App extends React.Component {

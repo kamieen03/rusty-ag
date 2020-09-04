@@ -1,12 +1,12 @@
 import React from 'react'
 import './ArtworksGrid.css'
 import '../common/CubeSpinner'
-import { GET_ARTIST_ARTWORKS_URL, ARTIST_URL } from './../constants'
+import { GET_ARTIST_ARTWORKS_URL, ARTIST_URL } from '../constants'
 import ArtworkCell from './ArtworkCell.js'
 import { useParams } from 'react-router-dom'
 import BlackAndWhiteLink from '../common/BlackAndWhiteLink.js'
-import Grid from './Grid'
-import { idToName } from './../helper.js'
+import Grid from '../grid/Grid'
+import { idToName } from '../helper.js'
 
 export default function ArtworksGrid() {
     const { artistId } = useParams();
