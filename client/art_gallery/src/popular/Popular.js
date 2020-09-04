@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { GET_POPULAR_ARTWORKS } from './../constants'
-import ArtworkEntity from './../entity/ArtworkEntity'
+import ArtworkEntity from '../artwork/ArtworkEntity.js'
 import { IconButton } from '@material-ui/core'
 import { MdKeyboardArrowLeft } from 'react-icons/md'
 import { MdKeyboardArrowRight } from 'react-icons/md'
