@@ -4,7 +4,10 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 lazy_static! {
-    static ref CLIENT: reqwest::blocking::Client = reqwest::blocking::Client::new();
+    static ref CLIENT: reqwest::blocking::Client = reqwest::blocking::Client::builder()
+                                                    .danger_accept_invalid_certs(true)
+                                                    .build()
+                                                    .unwrap();
 
     static ref STYLES: HashMap<String, String> = {
         let path = "static/styles.json";

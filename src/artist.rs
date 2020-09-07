@@ -8,7 +8,10 @@ mod artist_info {
     use std::collections::HashMap;
 
     lazy_static! {
-        static ref CLIENT: reqwest::Client = reqwest::Client::new();
+        static ref CLIENT: reqwest::Client = reqwest::Client::builder()
+                                                    .danger_accept_invalid_certs(true)
+                                                    .build()
+                                                    .unwrap();
     }
 
     mod api_info {
@@ -277,7 +280,10 @@ mod paintings {
     use serde::{Deserialize, Serialize};
 
     lazy_static! {
-        static ref BLOCKING_CLIENT: reqwest::blocking::Client = reqwest::blocking::Client::new();
+        static ref BLOCKING_CLIENT: reqwest::blocking::Client = reqwest::blocking::Client::builder()
+                                                    .danger_accept_invalid_certs(true)
+                                                    .build()
+                                                    .unwrap();
     }
 
     #[derive(Serialize, Deserialize)]

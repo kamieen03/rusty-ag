@@ -45,7 +45,10 @@ mod artwork {
     use serde::{Deserialize, Serialize};
 
     lazy_static! {
-        static ref CLIENT: reqwest::blocking::Client = reqwest::blocking::Client::new();
+        static ref CLIENT: reqwest::blocking::Client = reqwest::blocking::Client::builder()
+                                                    .danger_accept_invalid_certs(true)
+                                                    .build()
+                                                    .unwrap();
     }
 
     //TODO: perhpas more fields should be of type Option<T>; needs testing
