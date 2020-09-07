@@ -3,7 +3,10 @@ use rocket_contrib::json::Json;
 use serde::{Deserialize, Serialize};
 
 lazy_static! {
-    static ref CLIENT: reqwest::blocking::Client = reqwest::blocking::Client::new();
+    static ref CLIENT: reqwest::blocking::Client = reqwest::blocking::Client::builder()
+                                                    .danger_accept_invalid_certs(true)
+                                                    .build()
+                                                    .unwrap();
 }
 static URL: &str = "https://www.wikiart.org/en/api/2/MostViewedPaintings";
 
