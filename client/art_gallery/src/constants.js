@@ -1,4 +1,3 @@
-
 export const ROOT_URL = 'https://rustyag.herokuapp.com/api';
 //export const ROOT_URL = 'http://localhost:8000/api';
 export const GET_SEARCH_URL = `${ROOT_URL}/search/`;
