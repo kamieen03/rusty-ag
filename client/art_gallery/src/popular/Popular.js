@@ -30,8 +30,8 @@ export default class Popular extends Component {
     }
 
     async fetchPopular() {
-        const result = fetch(`${GET_POPULAR_ARTWORKS}`)
-        return (await result).json()
+        const result = await fetch(`${GET_POPULAR_ARTWORKS}`);
+        return (await result).json();
     }
 
     scroll(n, auto_spin) {
@@ -54,7 +54,7 @@ export default class Popular extends Component {
 
         return (
             <div className="Popular">
-                <ArtworkEntity artworkId={this.state.paintings[this.state.paintings_iter].id} />
+                <ArtworkEntity id={this.state.paintings[this.state.paintings_iter].id} onArtworkChange={()=>null}/>
                 <div className="Popular-buttons">
                     <IconButton className="Popular-next" onClick={() => this.scroll(-1, false)} >
                         <MdKeyboardArrowLeft />

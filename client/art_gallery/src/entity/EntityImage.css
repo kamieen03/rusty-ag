@@ -1,0 +1,15 @@
+.EntityImage {
+    flex: 1 0 50%;
+    display: flex;
+    align-items: flex-start;
+}
+
+
+.EntityImage-image {
+    object-fit: contain !important;
+    filter:
+      drop-shadow(0 -3px 0 black)
+      drop-shadow(0 3px 0 black)
+      drop-shadow(-3px 0 0 black)
+      drop-shadow(3px 0 0 black);
+}
