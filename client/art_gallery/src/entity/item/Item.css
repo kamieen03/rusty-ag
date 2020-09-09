@@ -1,0 +1,38 @@
+.Item {
+    font-size: 24px;
+    margin-bottom: 0.75em;
+}
+
+.Item-name {
+    font-weight: 700;
+}
+
+.Item-value {
+    display: flex;
+    flex-wrap: wrap;
+    font-style: italic;
+}
+
+.Item-value a {
+    text-decoration: none;
+    color: black;
+}
+
+.Item-value a:hover {
+    text-decoration: underline;
+}
+
+.Item-value > ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.Item-value > ul > li {
+    display: inline-block;
+    margin-right: 8px;
+}
+
+
+
+

@@ -8,5 +8,5 @@ export function idToName(id) {
 export function nameToId(name) {
     return name
         .toLowerCase()
-        .replace(/\s/g, "+");
+        .replace(/\s/g, "-");
 }
