@@ -6,6 +6,7 @@ export const GET_ARTWORK_URL = `${ROOT_URL}/paintings/`;
 export const GET_ART_MOVEMENT_URL = `${ROOT_URL}/art_movement/`;
 export const GET_ARTIST_ARTWORKS_URL = (artistId) => `${ROOT_URL}/artist/${artistId}/paintings/`;
 export const GET_POPULAR_ARTWORKS = `${ROOT_URL}/popular/`;
+export const POST_STYLE_TRANSFER = `${ROOT_URL}/transform/`;
 
 export const ARTIST_URL = '/artist/';
 export const ARTWORK_URL = '/paintings/';

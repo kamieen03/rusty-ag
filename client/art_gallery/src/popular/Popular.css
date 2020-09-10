@@ -5,6 +5,7 @@
 }
 
 .Popular-buttons {
+    margin-bottom: 1.5em;
     justify-content: center;
     display: flex;
 }

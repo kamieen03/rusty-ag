@@ -1,0 +1,9 @@
+.ArtworkEntityImage {
+    flex: 1 0 45%;
+    display: flex;
+    flex-direction: column;
+}
+
+.ArtworkEntityImage-upload {
+    margin-top: 0.5em;
+}

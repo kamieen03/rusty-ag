@@ -20,7 +20,7 @@ export default class Searcher extends React.Component {
 	}
 
 	handleEscKeyDown(event) {
- 		if (event.keyCode == 27 /*esc*/) {
+ 		if (event.keyCode === 27 /*esc*/) {
 			this.props.onStopSearching();
 		}
 	}
