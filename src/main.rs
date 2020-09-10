@@ -37,6 +37,8 @@ fn main() {
         artwork::artwork_v2,
         movement::movement,
         popular::popular_paintings,
+        style_transfer::transform,
+        style_transfer::get_transformed_image,
     ];
     rocket::ignite()
         .mount("/", react_routes)

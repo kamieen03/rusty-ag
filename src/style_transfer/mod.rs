@@ -1,6 +1,11 @@
 use lazy_static::lazy_static;
 use tch;
 use tch::{CModule, vision::image, Tensor};
+use rocket::response::Redirect;
+use rocket_contrib::json::Json;
+use serde::{Deserialize, Serialize};
+
+
 
 lazy_static! {
     static ref ENCODER: CModule = tch::CModule::load("src/style_transfer/encoder.pt").unwrap();
@@ -31,6 +36,21 @@ pub fn transform_() {
     image::save(&image, "output.jpg").unwrap();
 }
 
-pub fn transform() {
-    tch::no_grad(|| transform_());
+#[derive(Serialize, Deserialize)]
+#[allow(non_snake_case)]
+pub struct Input {
+    file: Vec<u8>,
+    artworkId: String,
 }
+
+#[post("/transform", data = "<input>")]
+pub fn transform(input: Json<Input>) -> Redirect {
+    let hash = "2137";
+    Redirect::to(uri!(get_transformed_image: hash))
+}
+
+#[get("/result/<hash>")]
+pub fn get_transformed_image(hash: String) -> String {
+    "OK".to_string()
+}
+
