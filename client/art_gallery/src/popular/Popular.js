@@ -54,7 +54,6 @@ export default class Popular extends Component {
 
         return (
             <div className="Popular">
-                <ArtworkEntity id={this.state.paintings[this.state.paintings_iter].id} onArtworkChange={()=>null}/>
                 <div className="Popular-buttons">
                     <IconButton className="Popular-next" onClick={() => this.scroll(-1, false)} >
                         <MdKeyboardArrowLeft />
@@ -63,6 +62,7 @@ export default class Popular extends Component {
                         <MdKeyboardArrowRight />
                     </IconButton>
                 </div>
+                <ArtworkEntity id={this.state.paintings[this.state.paintings_iter].id} onArtworkChange={()=>null}/>
             </div>
         )
     }
