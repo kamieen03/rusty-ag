@@ -17,6 +17,8 @@ export default class GridView extends Component {
     handleLoadMore(page) {
         const nextCellsNumber = this.props.pageSize * page;
 
+        console.log('dssad');
+
         if (this.state.initialLoad === true) {
             this.setState({ initialLoad: false });
         }
@@ -24,7 +26,10 @@ export default class GridView extends Component {
         if (this.props.cellsData.length > nextCellsNumber) {
             this.setState({ cells: this.props.cellsData.slice(0, nextCellsNumber) });
         } else {
-            this.setState({ cells: this.props.cellsData.slice(0, this.props.cellsData.length) });
+            this.setState({
+                cells: this.props.cellsData.slice(0, this.props.cellsData.length),
+                hasMore: false
+            });
         }
     }
 
@@ -38,6 +43,7 @@ export default class GridView extends Component {
                 hasMore={this.state.hasMore}
                 initialLoad={this.state.initialLoad}
                 useWindow={true}
+                threshold={300}
                 className="GridView"
             >
                 {this.state.cells.map((cellData, i) =>

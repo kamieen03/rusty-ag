@@ -1,7 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import { idToName } from './../helper.js'
-import Grid from './Grid'
+import Grid from '../grid/Grid.js'
 import { GET_ART_MOVEMENT_URL } from './../constants'
 import ArtMovementCell from './ArtMovementCell.js'
 

@@ -2,7 +2,7 @@ import React from 'react'
 import './ArtMovementCell.css'
 import { Link } from 'react-router-dom'
 import { ARTIST_URL, ARTWORK_URL } from '../constants'
-import { nameToId } from './../helper'
+import { nameToId } from '../helper'
 
 export default function ArtMovementCell(props) {
     const backgroundImageStyle = {

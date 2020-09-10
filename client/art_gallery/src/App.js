@@ -1,18 +1,18 @@
 import React from 'react';
-import './App.css'
-import Header from './common/Header.js'
-import Searcher from './searching/Searcher.js'
-import ArtistEntity from './entity/ArtistEntity';
-import ArtworksGrid from './grid/ArtworksGrid'
-import Popular from './popular/Popular'
+import './App.css';
+import Header from './common/Header.js';
+import Searcher from './searching/Searcher.js';
+import Artist from './artist/Artist';
+import Artwork from './artwork/Artwork';
+import ArtworksGrid from './artwork/ArtworksGrid';
+import ArtMovementGrid from './artmovement/ArtMovementGrid';
+import Popular from './popular/Popular';
 
 import {
 	BrowserRouter as Router,
 	Switch,
 	Route,
 } from "react-router-dom";
-import ArtworkEntity from './entity/ArtworkEntity';
-import ArtMovementGrid from './grid/ArtMovementGrid';
 
 
 class App extends React.Component {
@@ -44,8 +44,8 @@ class App extends React.Component {
 					<main className="App-main">
 						<Switch>
 							<Route path="/artist/:artistId/paintings/" component={ArtworksGrid} />
-							<Route path="/artist/:artistId/" component={ArtistEntity} />
-							<Route path="/paintings/:artworkId/" component={ArtworkEntity} />
+							<Route path="/artist/:artistId/" component={Artist} />
+							<Route path="/paintings/:artworkId/" component={Artwork} />
 							<Route path="/art_movement/:artMovementId/" component={ArtMovementGrid} />
                             <Route path="/" component={Popular}/>
 						</Switch>
