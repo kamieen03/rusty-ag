@@ -12,7 +12,7 @@ export default function ArtworkEntity(props) {
             id={props.id}
             url={GET_ARTWORK_URL}
             description={<ArtworkEntityDescription />}
-            image={<ArtworkEntityImage />}
+            image={<ArtworkEntityImage artworkId={props.id} />}
             onEntityChange={props.onArtworkChange} />
     )
 }
