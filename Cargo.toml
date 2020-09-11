@@ -17,7 +17,9 @@ tokio = { version = "0.2", features = ["full"] }
 scraper = "0.11.0"
 tch = "0.1.7"
 tempfile = "3.1.0"
+base64 = "0.12.3"
 md5 = "0.7.0"
+image = "0.23.9"
 
 [dependencies.rocket_contrib]
 version = "0.4.4"
