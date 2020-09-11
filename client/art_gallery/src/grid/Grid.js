@@ -21,6 +21,22 @@ export default class Grid extends Component {
         })
     }
 
+    async componentDidUpdate(prevProps) {
+        if (this.props.url !== prevProps.url) {
+            this.setState({
+                isLoaded: false,
+                items: []
+            })
+
+            const items = await this.fetchItems();
+
+            this.setState({
+                isLoaded: true,
+                items: items
+            })
+        }
+    } 
+
     async fetchItems() {
         const response = await fetch(`${this.props.url}`);
         const data = await response.json()
