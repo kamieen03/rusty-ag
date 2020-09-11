@@ -10,7 +10,7 @@ export default function ArtworkEntityImage(props) {
             <div className="ArtworkEntityImage-upload">
                 <StyleTransferButton
                     text="Style transfer"
-                    artworkId={props.artworkId}
+                    artworkId={props.data.image}
                     className="ArtworkEntityImage-upload" />
             </div>
         </div>
