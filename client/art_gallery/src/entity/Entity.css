@@ -8,6 +8,14 @@
     padding-bottom: 2em;
 }
 
+.Entity-description {
+    flex: 1 0 45%;
+}
+
+.Entity-image {
+    flex: 1 0 55%;
+}
+
 .Entity-nocontent {
     margin: auto;
 }
