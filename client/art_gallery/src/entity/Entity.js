@@ -23,7 +23,7 @@ export default class Entity extends Component {
             this.props.onEntityChange(false);
             this.reset();
             this.fetchData();
-        }   
+        }
     }
 
     reset() {
@@ -34,7 +34,7 @@ export default class Entity extends Component {
         });
     }
 
-    
+
 
     async fetchData() {
         try {
@@ -47,22 +47,26 @@ export default class Entity extends Component {
             });
             this.props.onEntityChange(true);
         } catch (e) {
-            this.setState({ hasError: true, isLoaded:true });
+            this.setState({ hasError: true, isLoaded: true });
             this.props.onEntityChange(true);
         }
     }
 
     render() {
-        const description = React.cloneElement(this.props.description, {
-            data: this.state.data,
-            // className: this.props.description.props.className + " Entity-description"
-        })
+        const description =
+            <div className="Entity-description">
+                {React.cloneElement(this.props.description, {
+                    data: this.state.data,
+                })}
+            </div>
 
-        const image = React.cloneElement(this.props.image, {
-            data: this.state.data,
-            // className: this.props.image.props.className + " Entity-image",
-            onLoad: () => null
-        })
+        const image =
+            <div className="Entity-image">
+                {React.cloneElement(this.props.image, {
+                    data: this.state.data,
+                    onLoad: () => null
+                })}
+            </div>
 
         const entity =
             <div className="Entity">
