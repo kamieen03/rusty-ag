@@ -31,6 +31,7 @@ export default function StyleTransferButton(props) {
             method: "POST",
             body: JSON.stringify(data)
         })
+        window.open(response.url);
     }
 
     return (

@@ -100,7 +100,7 @@ pub fn transform(input: Json<Input>) -> Redirect {
 #[get("/result/<path>")]
 pub fn get_transformed_image(path: String) -> Option<NamedFile> {
     let file = NamedFile::open(&path).ok();
-    std::fs::remove_file(path).unwrap();
+    //std::fs::remove_file(path).unwrap();
     file
 }
 
